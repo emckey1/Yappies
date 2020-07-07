@@ -1,2 +1,2 @@
 # Yappies
- Communications app created for a community-sponsored project during my time at Niagara College
+ Communications app created for a community-sponsored project during my time at Niagara College, for the Boys and Girl's Club of Niagara. A Progressive Web Application (PWS) built using C# ASP.NET MVC, for mobile app deployment. Allows parents to sign up to programs their children are a part of, and receive news, schedules, and push notifications from program supervisors, while also allowing direct messaging between the two.
