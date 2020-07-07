@@ -1,0 +1,116 @@
+﻿@model IEnumerable<YappiesTesting.Models.Child>
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="panel panel-default" style="margin: 0px">
+    <div class="panel-heading">
+        <h3 class="text-center" style="padding:0; margin:0;">Profile</h3>
+    </div>
+    <div style="overflow-y:scroll; max-height:35vh;">
+
+    </div>
+</div>
+<div class="panel panel-default" style="margin: 0px">
+    <div class="panel-heading">
+        <h2 class="panel-title">Children</h2>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            @foreach (var child in Model)
+            {
+                <li class="list-group-item">
+                    <h4>@Html.DisplayFor(modelChild => child.FirstName)</h4>
+                    <hr />
+                    <h5>Child's Programs</h5>
+                    <ul class="list-group">
+                        @foreach (var program in child.Programs)
+                        {
+                            <li class="list-group-item">
+                                @Html.DisplayFor(childProgram => program.Program.ProgramName)
+                            </li>
+                        }
+                            <li class="list-group-item">
+                                <a class="btn btn-success" onclick="childIdToModal(this)" value="@child.ID" data-childID="@child.ID" data-toggle="modal" data-target="#addChildProgram">Add Program</a>
+                            </li>
+                    </ul>
+                    
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-success" data-toggle="modal" data-target="#addChild">Add Child</a>
+    </div>
+</div>
+
+<!--Add Child Modal-->
+<div class="modal" tabindex="-1" role="dialog" id="addChild">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="float:right">
+                    <a data-dismiss="modal"><span class="glyphicon">&times;</span></a>
+                </div>
+                <h3 class="modal-title">Add Child</h3>
+            </div>
+            <form asp-action="CreateChild">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="FirstName" class="form-control" type="text" placeholder="Child Name" />
+                    </div>
+                    <input name="ParentID" hidden value="@ViewBag.ParentID" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success" value="Create">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Add Child to Program Modal-->
+<div class="modal" tabindex="-1" role="dialog" id="addChildProgram">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="float:right">
+                    <a data-dismiss="modal"><span class="glyphicon">&times;</span></a>
+                </div>
+                <h3 class="modal-title">Add Child to Program</h3>
+            </div>
+            <form asp-action="AddChildProgram">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select name="ProgramID" asp-items="@ViewBag.ProgramID" class="form-control"></select>
+                    </div>
+                    <input name="ChildID" id="ChildID" hidden />
+                    <input name="ParentID" hidden value="@ViewBag.ParentID" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success" value="Enroll">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addChildProgram").on("show.bs.modal", function (event) {
+            var ChildID = $(event.relatedTarget);
+
+            var modal = $(this);
+            modal.find("#ChildID").val(childId => ChildID.data("childID"));
+        });
+    });
+    function childIdToModal(e) {
+        var id = e.getAttribute('value')
+        document.getElementById('ChildID').value = id;
+    }
+</script>

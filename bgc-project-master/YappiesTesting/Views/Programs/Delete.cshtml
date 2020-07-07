@@ -1,0 +1,42 @@
+﻿@model YappiesTesting.Models.Program
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<div id="body">
+    <h1 class="text-center">Delete Program</h1>
+    <div class="panel panel-default" style="margin-top: .5vh">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Delete Program
+            </h3>
+        </div>
+        <div class="panel-body" style="margin: 0; padding:0">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.ProgramName)</strong><br />
+                    @Html.DisplayFor(model => model.ProgramName)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.ProgramDescription)</strong><br />
+                    @Html.DisplayFor(model => model.ProgramDescription)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.ProgramJoinCode)</strong><br />
+                    @Html.DisplayFor(model => model.ProgramJoinCode)
+                </li>
+                <li class="list-group-item">
+                    <strong>@Html.DisplayNameFor(model => model.ProgramSupervisor)</strong><br />
+                    @Html.DisplayFor(model => model.ProgramSupervisor.Supervisor)
+                </li>
+            </ul>
+        </div>
+        <div class="panel-footer">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ID" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+</div>

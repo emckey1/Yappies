@@ -1,0 +1,38 @@
+﻿@model YappiesTesting.Models.ProgramSupervisor
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div style="padding:0.5vh; background-color:#e0e0e0; height:90vh;">
+<div class="panel panel-default" style="margin: 0px">
+    <div class="panel-heading">
+        <h3 class="text-center" style="padding:0; margin:0;">Messages</h3>
+    </div>
+    <div style="overflow-y:scroll; max-height:35vh;">
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Conversations</h2>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            @foreach (var item in Model.Conversations)
+            {
+                <a asp-action="MessagesPS" asp-route-ParentID="@item.ParentID" asp-route-ProgramSupervisorID="@Model.ID" style="color:black;">
+                    <li class="list-group-item">
+                        @Html.DisplayFor(modelItem => item.Parent.ParentName)
+                        @*<span class="badge pull-right">@item.Messages.Count</span>*@
+                    </li>
+                </a>
+            }
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+        @*<a asp-action="Create" asp-route-id="@Model.ID" class="btn btn-success">New</a>*@
+    </div>
+</div>
+</div>

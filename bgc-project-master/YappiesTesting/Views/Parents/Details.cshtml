@@ -1,0 +1,68 @@
+﻿@model YappiesTesting.Models.Parent
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div id="body">
+    <div class="panel panel-default" style="margin: 0px">
+        <div class="panel-heading">
+            <h3 class="text-center" style="padding:0; margin:0;">@Html.DisplayFor(model => model.ParentName)</h3>
+        </div>
+        <div style="overflow-y:scroll; max-height:35vh;">
+
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Parent Details</h3>
+        </div>
+        <div class="panel-body" style="padding: 0">
+            <div class="container-fluid" style="margin:0; padding:0;">
+                <div class="panel panel-default" style="margin:0; padding:0;">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h4>@Html.DisplayNameFor(model => model.ParentName)</h4>
+                            <h5>@Html.DisplayFor(model => model.ParentName)</h5>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>@Html.DisplayNameFor(model => model.Email)</h4>
+                            <h5>@Html.DisplayFor(model => model.Email)</h5>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>@Html.DisplayNameFor(model => model.Phone)</h4>
+                            <h5>@Html.DisplayFor(model => model.Phone)</h5>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>  Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span>  Delete</a>
+        </div>
+    </div>
+
+    <!-- Program Members Panel -->
+    <div class="panel panel-default" style="margin: 0px; margin-bottom: .5vh">
+        <div class="panel-heading">
+            <h2 class="panel-title" style="text-decoration: none;">
+                <a data-toggle="collapse" data-target="#collapseMembers" style="text-decoration: none; color: #000000;">Programs</a>
+            </h2>
+        </div>
+        <div class="panel-collapse collapse in" id="collapseMembers">
+            <ul class="list-group" style="margin: 0px;">
+                @foreach (var item in Model.Programs)
+                {
+                    <li class="list-group-item">
+                        @Html.DisplayFor(modelItem => item.Program.ProgramName)
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="panel-footer">
+            <a asp-action="Index" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+        </div>
+    </div>
+    
+</div>

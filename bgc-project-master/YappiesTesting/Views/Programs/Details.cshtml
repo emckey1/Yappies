@@ -1,0 +1,245 @@
+﻿@model YappiesTesting.Models.Program
+
+@{
+    ViewData["Title"] = "Details";
+    ProgramSupervisor supervisor = new ProgramSupervisor();
+}
+
+<div style="background-color:#e0e0e0; padding:0.5vh;">
+    <div class="panel panel-default" style="margin: 0px">
+        <div class="panel-heading">
+            <h3 class="text-center" style="padding:0; margin:0;">@Html.DisplayFor(model => model.ProgramName)</h3>
+        </div>
+        <div style="overflow-y:scroll; max-height:35vh;">
+
+        </div>
+    </div>
+    <!-- Annoucements Panel-->
+    <div class="panel panel-default" style="margin: 0px; margin-bottom: 0.5vh; padding-bottom:0;">
+        <div class="panel-heading">
+            <h2 class="panel-title" style="text-decoration: none;">
+                <a data-toggle="collapse" href="#collapseAnnoucments" style="text-decoration: none; color: #000000;">Announcements <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+            </h2>
+        </div>
+        <div style="overflow-y: scroll; max-height: 65vh;">
+            <div class="panel-collapse collapse in" id="collapseAnnoucments">
+                <ul class="list-group">
+                    @foreach (var item in Model.Announcements)
+                    {
+                        <li class="list-group-item">
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <h5>@Html.DisplayFor(modelItem => item.CreatedOn)</h5>
+                            <hr />
+                            <p>@Html.DisplayFor(modelItem => item.Body)</p>
+                            @if (User.IsInRole("Program Supervisor"))
+                            {
+                                <a asp-action="Delete" asp-controller="Announcements" asp-route-id="@item.ID" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        @if (User.IsInRole("Program Supervisor") || User.IsInRole("Admin"))
+        {
+            <div class="panel-footer">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addProgAnn"><span class="glyphicon glyphicon-plus"></span> New Annoucement</a>
+            </div>
+        }
+        </div>
+
+    <!--Add Program Announcement Modal-->
+    <div class="modal" tabindex="-1" role="dialog" id="addProgAnn">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div style="float:right">
+                        <a data-dismiss="modal"><span class="glyphicon">&times;</span></a>
+                    </div>
+                    <h3 class="modal-title">Add Announcement</h3>
+                </div>
+                <form asp-action="CreateProgramAnnouncement">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input class="form-control" type="text" placeholder="Title" name="title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Body</label>
+                            <textarea class="form-control" name="body" rows="8" placeholder="Body Text"></textarea>
+                            <input hidden value="@Model.ID" name="programid" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-success" value="Create">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if (User.IsInRole("Program Supervisor") || User.IsInRole("Admin"))
+    {
+        <!-- Program Members Panel -->
+        <div class="panel panel-default" style="margin: 0px; margin-bottom: 0.5vh;">
+            <div class="panel-heading">
+                <h2 class="panel-title" style="text-decoration: none;">
+                    <a data-toggle="collapse" data-target="#collapseMembers" style="text-decoration: none; color: #000000;">Program Members <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                </h2>
+            </div>
+            <div class="panel-collapse collapse in" id="collapseMembers">
+                <ul class="list-group" style="margin: 0px;">
+                    @foreach (var item in Model.Parents)
+                    {
+                        @if (User.IsInRole("Program Supervisor"))
+                        {
+                            <a asp-action="CreateFromProgramDetailsPS" asp-controller="Conversations" asp-route-ParentID="@item.Parent.ID" asp-route-ProgramSupervisorID="@ViewBag.ProgramSupervisorID" style="color:black;">
+                                <li class="list-group-item">
+                                    @Html.DisplayFor(modelItem => item.Parent.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Parent.LastName)
+                                    <span class="glyphicon glyphicon-envelope" style="float: right"></span>
+                                </li>
+                            </a>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="list-group-item">
+                                @Html.DisplayFor(modelItem => item.Parent.FirstName)
+                                @Html.DisplayFor(modelItem => item.Parent.LastName)
+                                <span class="glyphicon glyphicon-envelope" style="float: right"></span>
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <input name="programid" value="@Model.ID" hidden />
+                @if (User.IsInRole("Program Supervisor") || User.IsInRole("Admin"))
+                {
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addParent" style="margin-bottom: 1em;"><span class="glyphicon glyphicon-plus"></span>   Add Parent</button>
+                }
+                @*@if (User.IsInRole("Admin"))
+                {
+                    <form asp-action="AddParentsFromExcel" method="post" enctype="multipart/form-data">
+                        <input name="programid" value="@Model.ID" hidden />
+                        <input type="file" name="formFile" style="margin-bottom: 1em;" class="btn btn-default"/>
+                        <input type="submit" value="Upload Data" class="btn btn-success" />
+                    </form>
+                }*@
+            </div>
+        </div>
+
+        <!--Add Parent & Excel Modal-->
+        <div class="modal fade" role="dialog" id="addParent">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div style="float:right">
+                            <a data-dismiss="modal"><span class="glyphicon">&times;</span></a>
+                        </div>
+                        <h3 class="modal-title">Add Parent</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="AddParentToCurrentProgram">
+                            <div class="form-group">
+                                <input name="programid" value="@Model.ID" hidden />
+                                <label for="title" style="margin-bottom: 0.3em;">By Email:</label>
+                                <input class="form-control" type="text" placeholder="example@mail.com" name="email" style="margin-bottom: 0.3em;" />
+                                <input type="submit" class="btn btn-success" value="Create">
+                            </div>
+                        </form>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <form asp-action="AddParentsFromExcel" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="title">Mass Invite with Excel:</label>
+                                    <input name="programid" value="@Model.ID" hidden />
+                                    <input type="file" name="formFile" />
+                                    <br />
+                                    <input type="submit" value="Upload Data" class="btn btn-success" />
+                                </div>
+                            </form>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Activities Panel-->
+    <div class="panel panel-default" style="margin: 0px; margin-bottom: 0.5em;">
+        <div class="panel-heading">
+            <h2 class="panel-title" style="text-decoration: none;">
+                <a data-toggle="collapse" href="#collapseActivities" style="text-decoration: none; color: #000000;">Activites <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+            </h2>
+        </div>
+        <div style="overflow-y: scroll; max-height: 65vh;">
+            <div class="panel-collapse collapse in" id="collapseActivities">
+                <ul class="list-group" style="margin: 0px; padding: 0px;">
+                    @foreach (var item in Model.Activities)
+                    {
+                        <li class="list-group-item">
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <h5>@Html.DisplayFor(modelItem => item.Date)</h5>
+                            <hr />
+                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        
+            @if (User.IsInRole("Program Supervisor") || User.IsInRole("Admin"))
+            {
+                <div class="panel-footer">
+                <a asp-controller="Activities" asp-action="Create" asp-route-programid="@Model.ID" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>  New Activity</a>
+                </div>
+            }
+    </div>
+
+    <!-- Details Panel-->
+    <div class="panel panel-default" style="margin: 0px; margin-bottom: 0.5vh   ;">
+        <div class="panel-heading">
+            <h2 class="panel-title" style="text-decoration: none;">
+                <a data-toggle="collapse" href="#collapseDetails" style="text-decoration: none; color: #000000;">Program Supervisor <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+            </h2>
+        </div>
+        <div style="overflow-y: scroll; max-height: 65vh;">
+            <div class="panel-collapse collapse in" id="collapseDetails" style="margin: 2%;">
+                <h4>@Html.DisplayFor(model => model.ProgramSupervisor.Supervisor)</h4>
+                <h5>@Html.DisplayFor(model => model.ProgramSupervisor.Phone)</h5>
+            </div>
+            @if (User.IsInRole("Parent"))
+            {
+                <div class="panel-footer">
+                    <a class="btn btn-primary" asp-action="CreateFromProgramDetails" asp-controller="Conversations" asp-route-ProgramSupervisorID="@Model.ProgramSupervisorID" asp-route-ParentID="@ViewBag.ParentID"><span class="glyphicon glyphicon-envelope"></span> Message</a>
+                </div>
+            }
+        </div>
+    </div>
+    @if (User.IsInRole("Program Supervisor") || User.IsInRole("Admin"))
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Program Managment
+                </h2>
+            </div>
+            <div class="panel-footer">
+                <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>   Edit</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span>   Delete</a>
+                }
+            </div>
+        </div>
+    }
+    <div>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    </div>
+</div>

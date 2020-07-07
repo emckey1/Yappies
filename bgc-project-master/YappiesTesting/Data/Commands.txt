@@ -1,0 +1,3 @@
+﻿Add-Migration -Context YappiesTestingContext -o Data\Migrations
+
+Update-Database -Context YappiesTestingContext

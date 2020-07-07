@@ -1,0 +1,72 @@
+﻿@model YappiesTesting.Models.Conversation
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<style>
+    .chat {
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 8px;
+    }
+
+    .altchat {
+        background-color: #F8F8F8;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 style="padding:0px;margin:0px;text-align:center;">@Model.Parent.ParentName</h3>
+    </div>
+    <div class="panel-body" style="overflow-y:scroll; max-height:75vh; padding:0px; height: 75vh;">
+        <ul class="chatbox" style="list-style:none; margin:0px; padding-left:0px; padding-right:0px; padding-top:0px;">
+            @foreach (var message in Model.Messages)
+            {
+                @if (message.SentByParent)
+                {
+                    <li class="chat clearfix" style="border-bottom:1px solid black; margin-bottom:0px; padding-bottom:5px; text-align:right;">
+                        <span class="chat-img pull-right"><img src="http://placehold.it/60/0099cc/fff&text=JJ" class="img-circle" /></span>
+                        <div class="msg-body">
+                            <div class="chat-header">
+                                <strong style="margin-right:5px">@Model.Parent.ParentName</strong> <small style="float:left; font-weight:100;"><span class="glyphicon glyphicon-time"></span> @Html.DisplayFor(modelMessage => message.CreatedOn)</small>
+                            </div>
+                            <p style="margin-right:70px; margin-left:5px; text-align:left;">
+                                @Html.DisplayFor(modelMessage => message.MessageText)
+                            </p>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="chat altchat clearfix" style="border-bottom:1px solid black; margin-bottom:0px; padding-bottom:5px; text-align:left;">
+                        <span class="chat-img pull-left"><img src="http://placehold.it/60/66cc00/fff&text=ME" class="img-circle" /></span>
+                        <div class="msg-body">
+                            <div class="chat-header">
+                                <strong>You</strong> <small style="float:right; font-weight:100;"><span class="glyphicon glyphicon-time"></span> @Html.DisplayFor(modelMessage => message.CreatedOn)</small>
+                            </div>
+                            <p style="margin-left:70px; text-align:left;">
+                                @Html.DisplayFor(modelMessage => message.MessageText)
+                            </p>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <form asp-action="NewMessage">
+            <div class="input-group">
+                <input name="ProgramSupervisorID" value="@Model.ProgramSupervisorID" hidden />
+                <input name="ParentID" value="@Model.ParentID" hidden />
+                <textarea name="MessageText" rows="2" type="text" class="form-control input-sm" placeholder="Type your message here..." style="z-index:auto;"></textarea>
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-lg" id="msg-btn">
+                        Send
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>

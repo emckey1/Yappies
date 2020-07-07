@@ -1,0 +1,104 @@
+﻿@model YappiesTesting.Models.Parent
+@{
+    ViewData["Title"] = "Home Page";
+    int programCount = Model.Programs.Count();
+    int announcementCount = 1;
+}
+<form asp-action="Index">
+<div style="padding:0.5vh; background-color:#e0e0e0">
+    <div class="container" id="body" style="padding:0px; margin:0;">
+        <div class="panel panel-default" style="margin: 0px">
+            <div class="panel-heading">
+                <h3 class="text-center" style="padding:0; margin:0;">Dashboard</h3>
+            </div>
+            <div style="overflow-y:scroll; max-height:35vh;">
+
+            </div>
+        </div>
+        <div class="panel panel-default" style="width:100%; margin-bottom:0;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Announcements <span class="badge pull-right" id="annCount"></span></h3>
+            </div>
+            <div style="overflow-y:scroll; max-height:30vh;">
+                <ul class="list-group">
+                    @foreach (var item in Model.Programs)
+                    {
+                        @foreach (var announcement in item.Program.Announcements)
+                        {
+                            <li class="list-group-item">
+                                <h4>@Html.DisplayFor(modelItem => announcement.Title)<span class=" pull-right">#@announcementCount</span></h4>
+                                <p>@Html.DisplayFor(modelItem => announcement.Body)</p>
+                            </li>
+                            announcementCount++;
+                        }
+                    }
+                    @*@foreach (var item in ViewBag.Announcements)
+                    {
+                        <li class="list-group-item">
+                            <h4>@item.Title<span class=" pull-right">#@announcementCount</span></h4>
+                            <p>@item.Body</p>
+                        </li>
+                        announcementCount++;
+                    }*@
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding:0px; margin:0px;">
+        <div class="panel panel-default" style="width: 100%;  margin-bottom:1vh;">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Programs <span class="badge pull-right">@programCount</span></h3>
+            </div>
+            <div style="overflow-y:scroll; max-height:30vh;">
+                <ul class="list-group">
+                    @foreach (var item in Model.Programs)
+                    {
+
+                        <a asp-action="Details" asp-route-id="@item.Program.ID" asp-controller="Programs" asp-route-ParentID="@Model.ID" style="text-decoration:none; color:black; cursor:auto; margin-top:0px;">
+                            <li class="list-group-item">
+                                <h4>@Html.DisplayFor(modelItem => item.Program.ProgramName)</h4>
+                                <p>@Html.DisplayFor(modelItem => item.Program.ProgramSupervisor.Supervisor)</p>
+                            </li>
+                        </a>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="messageContainer" style="max-height:20vh; margin-top:-0.5em; width: 100%;">
+        <div class="panel-footer">
+            <h4 class="panel-title">
+                <span class="glyphicon glyphicon-envelope"></span><a asp-controller="Conversations" asp-action="Index"> Messages</a>
+            </h4>
+        </div>
+        <div class="panel-footer">
+            <h4 class="panel-title">
+                <a asp-controller="" asp-action=""><span class="glyphicon glyphicon-plus"></span>  Join Program</a>
+            </h4>
+        </div>
+        <div class="panel-footer">
+            <h4 class="panel-title">
+                <a asp-controller="Parents" asp-action="Settings" asp-route-id="@Model.ID"><span class="glyphicon glyphicon-wrench"></span>   Settings</a>
+            </h4>
+        </div>
+        <div class="panel-footer">
+            <h4 class="panel-title">
+                <a asp-controller="Parents" asp-action="Profile" asp-route-id="@Model.ID"><span class="glyphicon glyphicon-user"></span>    Profile</a>
+            </h4>
+        </div>
+    </div>
+</form>
+<script>
+    //document.onload = function () {
+    //    document.getElementById("logo").innerText = "Hello World";
+    //    var hello = "Hello world";
+    //    window.alert("Hello")
+    //}
+    //$(document).ready(function () {
+    //    var logo = document.getElementById("logo")
+    //    //logo.style.display = "none";
+    //
+    //});
+</script>

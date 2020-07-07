@@ -1,0 +1,55 @@
+﻿@model YappiesTesting.Models.Parent
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div id="body">
+    <h1 class="text-center">Edit Parent</h1>
+    <div class="panel panel-default" style="margin-top: .5vh">
+        <div class="panel-heading">
+            <h3 class="panel-title">Edit Parent</h3>
+            </div>
+        <form asp-action="Edit">
+            <div class="panel-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                <input type="hidden" asp-for="RowVersion" />
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NotificationOptIn" class="control-label"></label>
+                    <input asp-for="NotificationOptIn" type="checkbox" class="form-control" />
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a asp-action="Details" asp-route-id="@Model.ID" class="btn btn-warning" style="float: right;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<a asp-action="Details" asp-route-id="@Model.ID" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

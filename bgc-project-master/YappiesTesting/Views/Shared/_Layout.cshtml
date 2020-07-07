@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - B&C Project</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="~/css/Style.css" />
+        <script src="~/js/site.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="~/css/Style.css" />
+        <script src="~/js/site.js"></script>
+    </environment>
+</head>
+<body>
+
+    @* Navigation Bar *@
+    <nav class="navbar navbar-default" style="margin-bottom:0px;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <ul class="nav navbar-nav">
+                            <partial name="_LoginPartial" />
+                            <hr />
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index" style="color:white">Dashboard</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @*<li><a asp-area="" asp-controller="" asp-action="" style="color:white">Announcements</a></li>
+                                <li><a asp-area="" asp-controller="" asp-action="" style="color:white">Programs</a></li>
+                                <li><a asp-area="" asp-controller="" asp-action="" style="color:white">Messages</a></li>
+                                <li><a asp-area="" asp-controller="" asp-action="" style="color:white">Settings</a></li>*@
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <li><a asp-area="" asp-controller="Parents" asp-action="Index" style="color:white">Parents</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <span id="hamburger" class="navbar-left" onclick="openNav()" style="color: black;">&#9776;</span>
+                }
+                <span id="logo" class="navbar-brand">
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/bgclogo.png" alt="logo" disabled="false" /></a>
+                </span>
+                <h3 id="pagetitle"></h3>
+            </div>
+        </div>
+    </nav>
+
+    @*<partial name="_CookieConsentPartial" />*@
+
+    <div class="container body-content" style="padding:0; margin:0;">
+        @RenderBody()
+        <footer>
+            <p></p>
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

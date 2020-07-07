@@ -1,0 +1,29 @@
+﻿@model IEnumerable<YappiesTesting.Models.ProgramSupervisor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<h1 class="text-center">Program Supervisors</h1>
+
+<div id="body">
+    <div class="panel-body" style="overflow-y:scroll; height:78vh; max-height:78vh; padding:0;">
+        @foreach (var item in Model)
+        {
+            <a asp-action="Details" asp-route-id="@item.ID" style="text-decoration:none; color:black; cursor:auto; margin-top:0px;">
+                <div class="container-fluid" style="margin-top:20px; padding:0;">
+                    <div class="panel panel-default" style="margin:0; padding:0;">
+                        <div style="padding-left:10px;">
+                            <h2 style="margin-bottom:5px; margin-top:10px;">@Html.DisplayFor(modelItem => item.Supervisor)</h2>
+                            <p style="margin-top:5px; margin-bottom:0px; padding:5px;">@Html.DisplayFor(modelItem => item.Email)</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>

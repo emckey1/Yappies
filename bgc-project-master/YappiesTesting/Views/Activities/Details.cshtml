@@ -1,0 +1,33 @@
+﻿@model YappiesTesting.Models.Activity
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center">Activity Details</h1>
+
+<div id="body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Activity Details</h3>
+        </div>
+        <div class="panel-body" style="padding: 0">
+            <div class="container-fluid" style="margin:0; padding:0;">
+                <div class="panel panel-default" style="margin:0; padding:0;">
+                    <div style="padding-left:10px;">
+                        <h2 style="margin-bottom:5px; margin-top:10px">@Html.DisplayFor(model => model.Title)</h2>
+                        <h3 style="margin-top:5px; margin-bottom:0px">@Html.DisplayFor(model => model.Date)</h3>
+                        <h4 style="margin-top:5px; margin-bottom:0px">@Html.DisplayFor(model => model.Program.ProgramName)</h4>
+                        <hr />
+                        <p>@Html.DisplayFor(model => model.Description)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>  Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span>  Delete</a>
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+</div>

@@ -1,0 +1,106 @@
+﻿/*Desktop and tablet view*/
+.navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    color: white;
+}
+
+    .navbar-header span {
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+        transform: translateY(20%);
+    }
+
+.navbar-brand {
+    float: none;
+    left: 50%;
+    display: inline;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: black;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    background-color: RGB(0,153,204);
+}
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 14px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav li a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 32px;
+        margin-left: 50px;
+    }
+
+/* Mobile */
+@media screen and (max-width: 450px) {
+
+    html body {
+        height: 100%;
+    }
+
+    .navbar-header {
+        font-size: 12px;
+    }
+
+        .navbar-header span {
+            font-size: 20px;
+            float: left;
+            transform: translateY(10%);
+        }
+
+    .navbar-brand img {
+        position: center;
+        left: 50%;
+        margin-left: -50px !important;
+        50% of your logo width display: block;
+        transform: translateY(-65%);
+        height: 30px;
+        width: 100px;
+    }
+
+    .sidenav {
+        padding-top: 60px;
+    }
+
+    #mySidenav .sidenav a {
+        font-size: 14px;
+        padding-top: 15px;
+    }
+
+    #LoginBox hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+}

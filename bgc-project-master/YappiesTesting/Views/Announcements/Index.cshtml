@@ -1,0 +1,44 @@
+﻿@model IEnumerable<YappiesTesting.Models.Announcement>
+
+@{
+    ViewData["Title"] = "Index";
+    int announcementCount = 1;
+}
+<form asp-action="Index">
+    <div class="panel panel-default" style="width:100%; margin-bottom:0;">
+        <div class="panel-heading">
+            <h3 class="panel-title">Announcements <span class="badge pull-right" id="annCount"></span></h3>
+            <button class="btn btn-success" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                Filter/Search
+            </button>
+            <div class="collapse" @(ViewData["Filtering"]) id="collapseFilter">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Select by Child:</label>
+                            <div class="col-md-3">
+                                @Html.DropDownList("ChildID", null, "All Children", htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" />
+                        <a asp-action="Index">Clear</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="overflow-y:scroll; max-height:30vh;">
+            <ul class="list-group">
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item">
+                        <h4>@item.Title<span class=" pull-right">#@announcementCount</span></h4>
+                        <p>@item.Body</p>
+                    </li>
+                    announcementCount++;
+                }
+            </ul>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<YappiesTesting.Models.Parent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form asp-action="Index">
+    <div id="body" style="background-color:#e0e0e0; padding:0.5vh">
+        <div class="panel panel-default" style="margin: 0px">
+            <div class="panel-heading">
+                <h3 class="text-center" style="padding:0; margin:0;">All Registered Parents</h3>
+            </div>
+            <div style="overflow-y:scroll; max-height:35vh;">
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Parents</h3>
+            </div>
+            @*<div class="form-horizontal">
+                <button class="btn btn-success" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                    Filter/Search
+                </button>
+                <div class="collapse @(ViewData["Filtering"]) " id="collapseFilter">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label class="control-label col-md-5">Search by Parent:</label>
+                                <div class="col-md-7">
+                                    @Html.TextBox("SearchString", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-5">Search by Email:</label>
+                                <div class="col-md-7">
+                                    @Html.TextBox("SearchEmail", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-5">Search by Phone:</label>
+                                <div class="col-md-7">
+                                    @Html.TextBox("SearchPhone", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" />
+                            <a asp-action="Index">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="panel-body" style="padding: 0px; margin: 0;">
+                <ul style="padding: 0px; margin: 0px;">
+                    @foreach (var item in Model)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.ID" style="text-decoration:none; color:black; cursor:auto; margin-top:0px;">
+                            <li class="list-group-item">
+                                @Html.DisplayFor(modelItem => item.ParentName)
+                                <span class="glyphicon glyphicon-envelope" style="float: right"></span>
+                            </li>
+                        </a>
+                    }
+                </ul>
+            </div>
+            <div class="panel-footer" style="">
+                <a asp-action="Index" asp-controller="Home" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span></a>
+            </div>
+        </div>
+    </div>
+</form>
